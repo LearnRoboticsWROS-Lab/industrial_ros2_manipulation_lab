@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: lrwros_ur5_workcell
+    relative_path: urdf/ur5_camera_gripper.urdf.xacro
+  srdf:
+    relative_path: config/ur.srdf
+  package_settings:
+    author_name: ros master
+    author_email: ros.master.ai@gmail.com
+    generated_timestamp: 1746108858

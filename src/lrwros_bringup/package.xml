@@ -26,6 +26,13 @@
 
   <!-- The cell: UR5 + Robotiq + depth camera in Gazebo, with MoveIt and RViz. -->
   <exec_depend>lrwros_ur5_workcell</exec_depend>
+  <!--
+    module_03 needs this: its launch includes the workcell's
+    spawn_ur5_camera_gripper_world_moveit.launch.py, which resolves
+    lrwros_ur5_moveit_config at runtime. The workcell's own package.xml does not
+    declare it, so it is declared here — where the launch that needs it lives.
+  -->
+  <exec_depend>lrwros_ur5_moveit_config</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

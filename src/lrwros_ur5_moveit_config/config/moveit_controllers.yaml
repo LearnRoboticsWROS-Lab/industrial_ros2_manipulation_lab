@@ -1,0 +1,47 @@
+# MoveIt uses this configuration for controller management
+
+# --- Trajectory execution monitoring ----------------------------------------
+# Gazebo's simulated arm tracks planned trajectories more slowly than their ideal
+# timing, so MoveIt's default duration monitor (allowed_execution_duration_scaling
+# 1.2) intermittently fires "waitForExecution timed out" and aborts a perfectly
+# good move mid-motion. Relax it generously for the simulation — still bounded, so
+# a genuinely stuck motion is eventually cancelled.
+trajectory_execution:
+  allowed_execution_duration_scaling: 5.0
+  allowed_goal_duration_margin: 2.0
+  # Disabled (0.0 = skip the check): the Gazebo arm sags a few degrees under
+  # gravity at far-reach poses, so between planning a motion and executing it the
+  # current state drifts past the trajectory's start point, aborting a valid move
+  # ("start point deviates from current robot state"). The controller smoothly
+  # absorbs the small initial offset at execution.
+  allowed_start_tolerance: 0.0
+  # Disabled: the Gazebo arm's wall-clock tracking speed varies (especially
+  # headless / under load), so ANY finite duration bound intermittently aborts a
+  # good move. The controller's own goal tolerance and the task-level service
+  # timeout still bound execution, so a genuinely stuck motion is not infinite.
+  execution_duration_monitoring: false
+
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - joint_trajectory_controller
+    - gripper_position_controller
+
+  joint_trajectory_controller:
+    type: FollowJointTrajectory
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    action_ns: follow_joint_trajectory
+    default: true
+  gripper_position_controller:
+    type: GripperCommand
+    joints:
+      - robotiq_85_left_knuckle_joint
+    action_ns: gripper_cmd
+    default: true
