@@ -1,0 +1,165 @@
+controller_manager:
+  ros__parameters:
+
+    update_rate: 100 # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    io_and_status_controller:
+      type: ur_controllers/GPIOController
+
+    speed_scaling_state_broadcaster:
+      type: ur_controllers/SpeedScalingStateBroadcaster
+
+    force_torque_sensor_broadcaster:
+      type: ur_controllers/ForceTorqueStateBroadcaster
+
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    scaled_joint_trajectory_controller:
+      type: ur_controllers/ScaledJointTrajectoryController
+
+    forward_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+    forward_position_controller:
+      type: position_controllers/JointGroupPositionController
+
+    gripper_position_controller:
+      type: position_controllers/GripperActionController
+
+
+speed_scaling_state_broadcaster:
+  ros__parameters:
+    state_publish_rate: 100.0
+
+
+force_torque_sensor_broadcaster:
+  ros__parameters:
+    sensor_name: tcp_fts_sensor
+    state_interface_names:
+      - force.x
+      - force.y
+      - force.z
+      - torque.x
+      - torque.y
+      - torque.z
+    frame_id: tool0
+    topic_name: ft_data
+
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      # Proven originals (do not tighten: stopped_velocity_tolerance below 0.2 makes
+      # the jittery Gazebo arm never report "goal reached" → MoveIt waitForExecution
+      # times out and aborts the motion).
+      stopped_velocity_tolerance: 0.2
+      # Positive goal-time tolerance (was 0.0 = wait forever): if the simulated arm
+      # occasionally fails to settle within goal tolerance, the controller returns a
+      # clean, prompt abort (in sim time) instead of hanging the action — and hence
+      # the whole application — until the task-level 60 s timeout.
+      goal_time: 10.0
+      # Path (trajectory) tolerance DISABLED (0.0): the Gazebo-simulated controller
+      # does not track the planned trajectory tightly, which caused spurious
+      # PATH_TOLERANCE_VIOLATED aborts mid-motion (wrist joints deviated ~0.25 rad).
+      # goal 0.2 rad (was 0.1): the Gazebo arm sags ~0.1 rad under gravity at
+      # far-reach poses, so a tight 0.1 goal is intermittently never met and the
+      # motion aborts on goal_time. 0.2 lets it settle reliably; final precision
+      # comes from the Cartesian descend + the LinkAttacher grasp, not this bound.
+      shoulder_pan_joint: { trajectory: 0.0, goal: 0.2 }
+      shoulder_lift_joint: { trajectory: 0.0, goal: 0.2 }
+      elbow_joint: { trajectory: 0.0, goal: 0.2 }
+      wrist_1_joint: { trajectory: 0.0, goal: 0.2 }
+      wrist_2_joint: { trajectory: 0.0, goal: 0.2 }
+      wrist_3_joint: { trajectory: 0.0, goal: 0.2 }
+
+
+scaled_joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      # Proven originals (do not tighten: stopped_velocity_tolerance below 0.2 makes
+      # the jittery Gazebo arm never report "goal reached" → MoveIt waitForExecution
+      # times out and aborts the motion).
+      stopped_velocity_tolerance: 0.2
+      # Positive goal-time tolerance (was 0.0 = wait forever): if the simulated arm
+      # occasionally fails to settle within goal tolerance, the controller returns a
+      # clean, prompt abort (in sim time) instead of hanging the action — and hence
+      # the whole application — until the task-level 60 s timeout.
+      goal_time: 10.0
+      # Path (trajectory) tolerance DISABLED (0.0): the Gazebo-simulated controller
+      # does not track the planned trajectory tightly, which caused spurious
+      # PATH_TOLERANCE_VIOLATED aborts mid-motion (wrist joints deviated ~0.25 rad).
+      # goal 0.2 rad (was 0.1): the Gazebo arm sags ~0.1 rad under gravity at
+      # far-reach poses, so a tight 0.1 goal is intermittently never met and the
+      # motion aborts on goal_time. 0.2 lets it settle reliably; final precision
+      # comes from the Cartesian descend + the LinkAttacher grasp, not this bound.
+      shoulder_pan_joint: { trajectory: 0.0, goal: 0.2 }
+      shoulder_lift_joint: { trajectory: 0.0, goal: 0.2 }
+      elbow_joint: { trajectory: 0.0, goal: 0.2 }
+      wrist_1_joint: { trajectory: 0.0, goal: 0.2 }
+      wrist_2_joint: { trajectory: 0.0, goal: 0.2 }
+      wrist_3_joint: { trajectory: 0.0, goal: 0.2 }
+
+forward_velocity_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    interface_name: velocity
+
+forward_position_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+
+gripper_position_controller:
+  ros__parameters:
+    action_monitor_rate: 20.0
+    allow_stalling: true
+    goal_tolerance: 0.01
+    joint: 'robotiq_85_left_knuckle_joint'
+    max_effort: 100.0
+    stall_timeout: 3.0
+    stall_velocity_threshold: 0.001

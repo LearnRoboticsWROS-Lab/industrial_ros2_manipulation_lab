@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# lab — the single entry point for the Industrial ROS2 Manipulation Lab.
+#
+# Usage:
+#   ./scripts/lab doctor                 Check your environment
+#   ./scripts/lab build                  Build the Docker image and the ROS2 workspace
+#   ./scripts/lab start demo             Launch the UR5 workcell demo
+#   ./scripts/lab start module_XX        Launch a module target (03, 05, 06, 07, ...)
+#   ./scripts/lab start --mode MODE      Start in a mode: mock | sim | hardware
+#   ./scripts/lab check module_XX        Verify a module checklist
+#   ./scripts/lab check capstone         Verify the capstone requirements
+#   ./scripts/lab shell                  Open a shell in the lab container (ROS2 ready)
+#   ./scripts/lab exec CMD ...           Run a command in the lab container
+#                                        (e.g. ./scripts/lab exec ros2 topic list)
+
+# Resolve repository root.
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SCRIPTS_DIR="$REPO_ROOT/scripts"
+COMPOSE_FILE="$REPO_ROOT/docker/compose.yaml"
+
+usage() {
+  sed -n '4,16p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+}
+
+log() { echo "[lab] $*"; }
+
+if [ $# -lt 1 ]; then
+  usage
+  exit 1
+fi
+
+COMMAND="$1"
+shift || true
+
+case "$COMMAND" in
+  doctor)
+    exec bash "$SCRIPTS_DIR/doctor.sh" "$@"
+    ;;
+  build)
+    exec bash "$SCRIPTS_DIR/build.sh" "$@"
+    ;;
+  start)
+    if [ $# -lt 1 ]; then
+      log "start requires a target. Examples:"
+      log "  ./scripts/lab start demo"
+      log "  ./scripts/lab start module_03"
+      log "  ./scripts/lab start --mode mock"
+      exit 1
+    fi
+    case "$1" in
+      demo)
+        shift
+        exec bash "$SCRIPTS_DIR/start_demo.sh" "$@"
+        ;;
+      --mode)
+        shift
+        MODE="${1:-}"
+        if [ -z "$MODE" ]; then
+          log "--mode requires a value: mock | sim | hardware"
+          exit 1
+        fi
+        shift || true
+        exec bash "$SCRIPTS_DIR/start_module.sh" "mode_$MODE" "$@"
+        ;;
+      module_*)
+        TARGET="$1"
+        shift
+        exec bash "$SCRIPTS_DIR/start_module.sh" "$TARGET" "$@"
+        ;;
+      *)
+        log "Unknown start target: $1"
+        log "Valid targets: demo, module_XX (e.g. module_03), --mode mock|sim|hardware"
+        exit 1
+        ;;
+    esac
+    ;;
+  check)
+    if [ $# -lt 1 ]; then
+      log "check requires a target, e.g.: ./scripts/lab check module_00"
+      exit 1
+    fi
+    exec bash "$SCRIPTS_DIR/check_module.sh" "$@"
+    ;;
+  shell)
+    # A shell inside the lab environment. Uses 'run --rm' (not 'exec') so the
+    # entrypoint sources ROS2; host networking joins any running demo's ROS graph.
+    export HOST_UID="$(id -u)" HOST_GID="$(id -g)"
+    exec docker compose -f "$COMPOSE_FILE" run --rm lab bash
+    ;;
+  exec)
+    # Run one command in the lab environment, e.g. ./scripts/lab exec ros2 topic list
+    if [ $# -lt 1 ]; then
+      log "exec requires a command, e.g.: ./scripts/lab exec ros2 topic list"
+      exit 1
+    fi
+    export HOST_UID="$(id -u)" HOST_GID="$(id -g)"
+    exec docker compose -f "$COMPOSE_FILE" run --rm lab "$@"
+    ;;
+  help|--help|-h)
+    usage
+    ;;
+  *)
+    log "Unknown command: $COMMAND"
+    usage
+    exit 1
+    ;;
+esac

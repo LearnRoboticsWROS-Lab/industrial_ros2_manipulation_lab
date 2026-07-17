@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<!--
+  STARTER EDITION build of lrwros_bringup.
+
+  The internal source declares exec_depend on five packages: lrwros_ur5_workcell,
+  lrwros_ur5_moveit_config, lrwros_ur5_ik, lrwros_3d_cv and
+  industrial_bt_framework. Four of those are the paid application layer and are
+  not shipped here, so declaring them would make rosdep and colcon fail on a
+  fresh clone — the first thing a free user ever does.
+
+  This edition therefore ships only what module_03 needs: the workcell.
+  Everything else is the Simulation Track.
+-->
+<package format="3">
+  <name>lrwros_bringup</name>
+  <version>0.1.0</version>
+  <description>
+    Top-level launch files of the Industrial ROS2 Manipulation Lab, Starter
+    Edition: the Module 0 demo and the Module 3 UR5 simulation workcell.
+  </description>
+  <maintainer email="ros.master.ai@gmail.com">Learn Robotics with ROS</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- The cell: UR5 + Robotiq + depth camera in Gazebo, with MoveIt and RViz. -->
+  <exec_depend>lrwros_ur5_workcell</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

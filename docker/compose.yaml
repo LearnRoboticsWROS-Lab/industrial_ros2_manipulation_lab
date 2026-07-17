@@ -1,0 +1,52 @@
+# Industrial ROS2 Manipulation Lab — compose configuration
+#
+# One service ("lab") runs everything in the main path. GUI works via:
+#   - Windows 11: WSLg (the /mnt/wslg mounts below)
+#   - Ubuntu:     X11 socket (/tmp/.X11-unix) — run `xhost +local:` once per session
+
+services:
+  lab:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        HOST_UID: ${HOST_UID:-1000}
+        HOST_GID: ${HOST_GID:-1000}
+    image: industrial-ros2-manipulation-lab:beta
+    container_name: lab
+    network_mode: host
+    # Share the host IPC namespace so /dev/shm is shared across lab containers.
+    # Without this, ROS2 (FastDDS) discovers topics across separate containers
+    # but data does not flow — its default same-host transport is shared memory,
+    # and separate containers otherwise have separate /dev/shm. This is what makes
+    # a "second terminal" (./scripts/lab exec ...) actually receive the running
+    # simulation's topics and TF.
+    ipc: host
+    stdin_open: true
+    tty: true
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - QT_X11_NO_MITSHM=1
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY:-}
+      # XDG_RUNTIME_DIR is intentionally NOT forwarded from the host: the host
+      # value (e.g. /run/user/1000) is not writable in the container. The
+      # entrypoint sets a container-local one instead.
+      - PULSE_SERVER=${PULSE_SERVER:-}
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+    volumes:
+      # The whole repository is the workspace:
+      - ..:/lab_ws
+      # X11 (Ubuntu):
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      # WSLg (Windows 11) — harmless empty mounts on native Linux:
+      - /mnt/wslg:/mnt/wslg
+    working_dir: /lab_ws
+    # --- Optional NVIDIA GPU acceleration (uncomment after installing
+    # --- nvidia-container-toolkit):
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]

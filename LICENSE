@@ -1,0 +1,31 @@
+Industrial ROS2 Manipulation Lab — Course Material License
+
+Copyright (c) 2026 Learn Robotics with ROS. All rights reserved.
+
+REVIEW REQUIRED: This is a placeholder license drafted for the course rebuild.
+The instructor must review and confirm the final licensing terms before release.
+
+1. Course material
+   The lesson texts, guides, documentation, course structure and original
+   source code in this repository (the lrwros_* packages, scripts and labs)
+   are provided to enrolled students of the Industrial ROS2 Manipulation Lab
+   for personal learning, portfolio and professional use.
+
+2. What students may do
+   - Use, run, modify and adapt the code for personal and professional projects.
+   - Publish their own capstone project based on this framework, with attribution.
+
+3. What students may not do
+   - Redistribute or resell the course lessons, guides or repository as a course
+     or training product.
+
+4. Third-party components
+   Third-party packages pulled via the .repos files (Universal Robots
+   description packages, Robotiq gripper packages, LinkAttacher, Fairino
+   packages, and others) keep their own licenses. See
+   00_inventory notes and .repos/ files for details. Nothing in this license
+   overrides the licenses of third-party components.
+
+THE SOFTWARE AND MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.

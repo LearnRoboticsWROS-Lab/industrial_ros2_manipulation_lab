@@ -1,0 +1,18 @@
+# The joint positions the arm boots into, in Gazebo.
+# These are the SRDF 'home' state.
+#
+# Do NOT go back to the stock default (shoulder_lift=-1.57, elbow=0, wrist_2=0): that
+# lays the arm out horizontally forward, and its upper_arm_link then sits INSIDE the
+# table's collision volume. The moment the application declares the table as a collision
+# object, MoveIt refuses to plan anything at all:
+#
+#   Start state appears to be in collision with respect to group ur5_manipulator
+#   contact between 'table1' (Object) and 'upper_arm_link' (Robot link)
+#
+# A robot must boot into a configuration it is allowed to be in.
+shoulder_pan_joint: 0.0
+shoulder_lift_joint: -2.2564
+elbow_joint: 1.4059
+wrist_1_joint: -1.57
+wrist_2_joint: -1.57
+wrist_3_joint: 0.0

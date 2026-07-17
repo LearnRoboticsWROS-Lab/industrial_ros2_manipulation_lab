@@ -1,0 +1,30 @@
+# Core UR5 + Robotiq + depth camera Gazebo/MoveIt2 workcell dependencies.
+# Imported automatically by ./scripts/lab build, or manually with:
+#   vcs import --recursive src/external < .repos/simulation_dependencies.repos
+# All versions are frozen commits (dependency audit 2026-07-09).
+# The tracking branch is noted above each entry for future re-pin audits.
+repositories:
+  # tracks: humble (do NOT use the default branch 'rolling')
+  Universal_Robots_ROS2_Description:
+    type: git
+    url: https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
+    version: 1d027b5eaefdd3b1bcdd4847b682fc7bb097c2a2
+  # tracks: humble (default branch 'main' targets newer distros)
+  # NOTE: robotiq_driver and robotiq_hardware_tests are skipped at build time
+  # (real-hardware driver, not needed in simulation) — see scripts/build.sh.
+  ros2_robotiq_gripper:
+    type: git
+    url: https://github.com/PickNikRobotics/ros2_robotiq_gripper.git
+    version: a29c69b7516b7a97737b5e43e118e6598ace0832
+  # tracks: humble (only branch); Gazebo grasp fixed-joint plugin
+  IFRA_LinkAttacher:
+    type: git
+    url: https://github.com/IFRA-Cranfield/IFRA_LinkAttacher.git
+    version: b056289ba93ccb549db98926dcbb9679642d0c8d
+  # Original upstream of the lab's workcell packages (now first-party in src/:
+  # lrwros_ur5_workcell, lrwros_ur5_moveit_config). Kept here commented as the
+  # provenance reference only — do not import.
+  # ur5_simulation:
+  #   type: git
+  #   url: https://github.com/LearnRoboticsWROS/ur5_simulation.git
+  #   version: 0ddb70e9fafee371e38bcb01b897d6afc15f353d
