@@ -49,7 +49,7 @@ under `/mnt/c/...`:
 ```bash
 # CORRECT (inside the Ubuntu/WSL terminal):
 cd ~
-git clone https://github.com/LearnRoboticsWROS/industrial_ros2_manipulation_lab.git
+git clone https://github.com/LearnRoboticsWROS-Lab/industrial_ros2_manipulation_lab.git
 cd industrial_ros2_manipulation_lab
 
 # WRONG — do not do this:

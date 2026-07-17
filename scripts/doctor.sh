@@ -57,7 +57,7 @@ case "$REPO_ROOT" in
   /mnt/c/*|/mnt/d/*|/mnt/e/*)
     fail "repository is under ${REPO_ROOT%%/(*)} (the Windows filesystem).
         Move it into the WSL filesystem for correct performance and permissions:
-        cd ~ && git clone https://github.com/LearnRoboticsWROS/industrial_ros2_manipulation_lab.git"
+        cd ~ && git clone https://github.com/LearnRoboticsWROS-Lab/industrial_ros2_manipulation_lab.git"
     ;;
   *)
     pass "repository on a Linux filesystem ($REPO_ROOT)"

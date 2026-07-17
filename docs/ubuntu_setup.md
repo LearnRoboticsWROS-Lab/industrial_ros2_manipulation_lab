@@ -37,7 +37,7 @@ Install VS Code (deb package or snap), then the **Dev Containers** extension.
 
 ```bash
 cd ~
-git clone https://github.com/LearnRoboticsWROS/industrial_ros2_manipulation_lab.git
+git clone https://github.com/LearnRoboticsWROS-Lab/industrial_ros2_manipulation_lab.git
 cd industrial_ros2_manipulation_lab
 ./scripts/lab doctor
 ```

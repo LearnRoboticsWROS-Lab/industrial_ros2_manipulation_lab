@@ -53,7 +53,7 @@ sudo chown -R $USER:$USER .
 Your clone is probably under `/mnt/c/...`. Move it inside WSL:
 
 ```bash
-cd ~ && git clone https://github.com/LearnRoboticsWROS/industrial_ros2_manipulation_lab.git && cd industrial_ros2_manipulation_lab
+cd ~ && git clone https://github.com/LearnRoboticsWROS-Lab/industrial_ros2_manipulation_lab.git && cd industrial_ros2_manipulation_lab
 ```
 
 ## Volume / Persistence Confusion

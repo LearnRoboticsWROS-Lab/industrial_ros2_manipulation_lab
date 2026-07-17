@@ -7,7 +7,7 @@ or Windows 11 + WSL2.
 Clone it, build it once, and a robot arm plans and moves on your machine.
 
 ```bash
-git clone https://github.com/LearnRoboticsWROS/industrial_ros2_manipulation_lab.git
+git clone https://github.com/LearnRoboticsWROS-Lab/industrial_ros2_manipulation_lab.git
 cd industrial_ros2_manipulation_lab
 ./scripts/lab doctor          # is my machine ready?
 ./scripts/lab build           # build the image + workspace (first run: ~15-30 min)
