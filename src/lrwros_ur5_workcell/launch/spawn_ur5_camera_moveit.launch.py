@@ -56,7 +56,7 @@ def generate_launch_description():
     )
 
     rviz_config_path = os.path.join(
-        get_package_share_directory("ur5_moveit_config"),
+        get_package_share_directory("lrwros_ur5_moveit_config"),
         "config",
         "moveit.rviz",
     )
