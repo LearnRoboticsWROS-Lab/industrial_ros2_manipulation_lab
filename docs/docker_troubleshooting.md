@@ -36,7 +36,13 @@ rendering — give it 30–60 s the first time.
 ## "Cannot connect to the Docker daemon"
 
 - Ubuntu: `sudo systemctl start docker`, and make sure your user is in the docker group (`groups | grep docker`; if not: `sudo usermod -aG docker $USER`, then log out/in).
-- Windows: start Docker Desktop and wait until it reports "running"; check WSL integration is enabled for Ubuntu-22.04.
+- Windows: start Docker Desktop and wait until it reports "Engine running" (press **Play** if the engine is stopped); check WSL integration is enabled for Ubuntu-22.04.
+
+**Windows only — deeper Docker Desktop / WSL problems** (missing socket, CLI
+plugins showing `input/output error`, a build failing on
+`docker-credential-desktop.exe: exec format error`, or `cmd.exe` returning
+`Exec format error`) are covered in
+[windows_wsl2_setup.md → Troubleshooting](windows_wsl2_setup.md#troubleshooting).
 
 ## Permission Errors on Files Created by the Container
 
