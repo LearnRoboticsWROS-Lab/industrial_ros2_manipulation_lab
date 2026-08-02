@@ -36,14 +36,20 @@ is the same cell the full course builds on.
 **What you do not get here — and this is the honest part:**
 
 This edition gives you the **cell**. It does not give you the **application** on
-top of it, or the course that teaches you to build one. Those are the paid tracks:
+top of it, or the course that teaches you to build one. That is what the paid
+tracks add — and how far each one takes you:
 
-| | |
-|---|---|
-| **Simulation Track** | blind pick-and-place → vision-guided pick-and-place → a Behavior Tree architecture → your own capstone. Modules 0–8, plus the custom-robot / URDF elective. |
-| **Full Track** | everything in Simulation, plus **simulation-to-real**: the same architecture deployed on a real Fairino FR3WML cobot with a RealSense camera and a Jetson Orin Nano running YOLO and 6D pose estimation. Plus an xArm6 + local-LLM elective. |
+| Edition | What you do with the cell | What the track adds |
+|---|---|---|
+| **Starter** — this repo | **Run & inspect** | the working Docker-based ROS2 workcell, yours to study |
+| **Simulation Track** | **Run → Understand → Modify** | blind and vision-guided pick-and-place, the `industrial_bt_framework` Behavior Tree architecture, and your own capstone — Modules 0–8 plus the URDF / custom-robot elective |
+| **Full Track** | **Run → Understand → Modify → Deploy** | everything in Simulation, plus simulation-to-real on a Fairino FR3WML cobot with an Intel RealSense camera and a Jetson Orin Nano (YOLO, 6D pose) — plus the xArm6 + local-LLM elective |
 
-See **[UPGRADE.md](UPGRADE.md)**.
+Each paid track includes **both** the private GitHub repository with these advanced
+application layers **and** the guided curriculum that teaches you to understand,
+modify and deploy them — repository access is part of the product, not the product
+itself. See **[UPGRADE.md](UPGRADE.md)** for the full breakdown, or
+**[compare the three tracks](https://www.learn-robotics-with-ros.com)**.
 
 The guided lessons live on **Teachable**; this repository is the lab they teach
 you to use. **Module 0 is free** — you can follow it against this edition today.
@@ -78,6 +84,10 @@ what that module is and where to get it. **It will not throw a traceback at you.
 3. **[docs/architecture.md](docs/architecture.md)** — how the cell is put together.
 4. **[UPGRADE.md](UPGRADE.md)** — when you are ready to build the application.
 
+Ready to go further than the cell? **[learn-robotics-with-ros.com](https://www.learn-robotics-with-ros.com)**
+is where you compare the Free Starter, Simulation Track and Full Track, purchase a
+track, and get the instructions for requesting access to its private repository.
+
 ## A note on what "free" means here
 
 The Starter Edition is not crippled software with a countdown. It is a working
@@ -88,6 +98,12 @@ What is paid is the part that is hard to get anywhere else: **the architecture,
 and the reasoning behind it** — how to build an application that survives a
 robot swap, a gripper change, a camera you did not plan for, and the day the
 simulation has to become a real machine on a real bench.
+
+---
+
+**Ready to move beyond the working cell and build the complete application?**
+Choose the Simulation Track or the Full Track at
+**[learn-robotics-with-ros.com](https://www.learn-robotics-with-ros.com)**.
 
 ## Licence
 
