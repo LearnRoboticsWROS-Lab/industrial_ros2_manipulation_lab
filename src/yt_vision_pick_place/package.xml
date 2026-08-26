@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>yt_vision_pick_place</name>
+  <version>0.1.0</version>
+  <description>
+    YouTube demo project: a single, self-contained vision-guided pick-and-place
+    on the Industrial ROS2 Manipulation Lab cell. A camera finds a red object by
+    colour, the robot picks it up wherever it lands. Deliberately monolithic and
+    task-specific — see README.md ("What this deliberately does NOT do").
+  </description>
+  <maintainer email="ros.master.ai@gmail.com">Learn Robotics with ROS</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Motion (C++): standard MoveIt2 planning interface, already in the cell. -->
+  <depend>rclcpp</depend>
+  <depend>moveit_ros_planning_interface</depend>
+  <depend>moveit_msgs</depend>
+  <depend>shape_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>tf2_geometry_msgs</depend>
+
+  <!-- The simulated grasp: IFRA LinkAttacher, fetched via .repos in every edition. -->
+  <depend>linkattacher_msgs</depend>
+
+  <!-- Perception (Python): colour segmentation + pixel->3D deprojection. -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>message_filters</exec_depend>
+
+  <!-- Spawning / randomising the target object in Gazebo. -->
+  <exec_depend>gazebo_msgs</exec_depend>
+  <exec_depend>gazebo_ros</exec_depend>
+
+  <!-- The cell this demo reuses (Starter edition ships all of these). -->
+  <exec_depend>lrwros_ur5_workcell</exec_depend>
+  <exec_depend>lrwros_ur5_moveit_config</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -14,6 +14,8 @@ set -euo pipefail
 #   ./scripts/lab shell                  Open a shell in the lab container (ROS2 ready)
 #   ./scripts/lab exec CMD ...           Run a command in the lab container
 #                                        (e.g. ./scripts/lab exec ros2 topic list)
+#   ./scripts/lab youtube list           List the YouTube demo projects
+#   ./scripts/lab youtube run <id>       Launch a YouTube demo project
 
 # Resolve repository root.
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -21,7 +23,7 @@ SCRIPTS_DIR="$REPO_ROOT/scripts"
 COMPOSE_FILE="$REPO_ROOT/docker/compose.yaml"
 
 usage() {
-  sed -n '4,16p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+  sed -n '4,18p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
 }
 
 log() { echo "[lab] $*"; }
@@ -82,6 +84,10 @@ case "$COMMAND" in
       exit 1
     fi
     exec bash "$SCRIPTS_DIR/check_module.sh" "$@"
+    ;;
+  youtube)
+    # Run the YouTube demo projects (src/yt_*). See scripts/youtube.sh.
+    exec bash "$SCRIPTS_DIR/youtube.sh" "$@"
     ;;
   shell)
     # A shell inside the lab environment. Uses 'run --rm' (not 'exec') so the

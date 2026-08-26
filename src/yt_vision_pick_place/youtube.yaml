@@ -1,0 +1,40 @@
+# YouTube project manifest. Discovered by scripts/youtube.sh (`youtube list`)
+# and by the boundary guard. Keep the top-level id/title/package/launch/
+# minimum_edition on single lines — the CLI parses them without a YAML tool.
+
+id: vision_pick_place
+title: Vision-Guided Pick and Place
+package: yt_vision_pick_place
+launch: vision_pick_place.launch.py
+minimum_edition: starter
+youtube_url: null
+
+runtime:
+  simulation: true
+  real_robot: false
+
+requires:
+  - moveit2
+  - simulated_rgbd_camera
+  - link_attacher
+
+learning_outcomes:
+  - rgb-d colour segmentation
+  - pixel + depth -> 3D point
+  - tf2 camera-to-base transform
+  - vision-guided grasp on a moving target
+
+scope:
+  - one object, one colour
+  - fixed top-down grasp
+  - sequential control flow
+  - simulation only
+
+not_in_scope:
+  - reusable perception / manipulation skills
+  - behavior-tree orchestration
+  - failure detection and recovery
+  - generic detector or gripper swap
+  - real-robot deployment
+# ^ everything under not_in_scope is the engineering the paid Simulation/Full
+#   Tracks teach. This project deliberately stops at "the task works".

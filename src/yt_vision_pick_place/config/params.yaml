@@ -1,0 +1,90 @@
+# yt_vision_pick_place — one place to tune the whole demo.
+# Every cell-specific constant lives here; the code reads these as ROS params.
+
+yt_perception_node:
+  ros__parameters:
+    rgb_topic: /camera/image_raw
+    depth_topic: /camera/depth/image_raw
+    info_topic: /camera/camera_info
+    base_frame: base_link
+    target_topic: /yt_vision/target_pose
+    # Red in HSV, split across the hue wrap-around (0 and 180).
+    hue_low_1: 0
+    hue_high_1: 10
+    hue_low_2: 160
+    hue_high_2: 179
+    sat_min: 100
+    val_min: 60
+    min_area_px: 150
+
+yt_spawn_target:
+  ros__parameters:
+    model_name: yt_red_cube
+    model_pkg: yt_vision_pick_place
+    # Remove the cell's grey 'red_cube' (Gazebo/Grey material) and any previous target.
+    delete_names: ["red_cube", "yt_red_cube"]
+    # Valid pick region in WORLD coords. The table is ~1.0 m up (robot on a pedestal);
+    # the cell's own cube rests at (0.5, 0.0, ~1.115). Spawn above it and let it settle.
+    x_min: 0.40
+    x_max: 0.60
+    y_min: -0.15
+    y_max: 0.15
+    z_spawn: 1.15
+
+yt_pick_place_node:
+  ros__parameters:
+    arm_group: ur5_manipulator
+    gripper_group: robotiq_gripper
+    ee_link: tool0
+    base_frame: base_link
+    target_topic: /yt_vision/target_pose
+    # Gazebo model/link names used by the LinkAttacher grasp in this cell.
+    robot_model_name: cobot
+    robot_grasp_link: wrist_3_link
+    object_model: yt_red_cube
+    object_link: link
+    # Robotiq gripper joint + open/closed commands.
+    gripper_joint: robotiq_85_left_knuckle_joint
+    gripper_open: 0.0
+    gripper_close: 0.4
+    # Heights (metres). Offsets are of tool0 above the detected target point.
+    approach_z_offset: 0.28
+    grasp_z_offset: 0.13
+    lift_dz: 0.15
+    # Place is RELATIVE to the pick (base frame): carry sideways by these, then drop.
+    place_dx: 0.0
+    place_dy: 0.25
+    # Top-down grasp orientation as base-frame RPY (tool0 pointing down).
+    # Matches the known-good top-down orientation from the Lab's camera pick.
+    grasp_roll: -3.14159265
+    grasp_pitch: 0.0
+    grasp_yaw: -3.14159265
+    # Motion tuning.
+    vel_scale: 0.2
+    acc_scale: 0.2
+    planning_time: 10.0
+    planning_attempts: 10
+    # Planner pipeline: ompl (default MoveIt, avoids obstacles) | pilz (industrial PTP).
+    motion_planning: ompl
+    ompl_planner_id: ""      # empty = OMPL pipeline default (RRTConnect)
+    pilz_planner_id: PTP     # PTP | LIN | CIRC
+    run_on_start: true
+    target_timeout_s: 30.0
+    arm_joint_names:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    home_joints: [0.0, -1.57, 1.57, -1.57, -1.57, 0.0]
+    # --- Collision scene (the teaching toggle) --------------------------------
+    # ON  = OMPL plans around the tables, the demo runs cleanly.
+    # OFF = no obstacles in the scene -> show how unpredictable planning is.
+    use_collision_scene: true
+    collision_frame: world
+    # Solid boxes matching the cell's two tables (world frame): [x,y,z] size + centre.
+    table_a_size: [0.8, 1.5, 1.0]       # pick table (table_0, rotated ~90 deg)
+    table_a_xyz:  [0.731, -0.048, 0.5]
+    table_b_size: [1.5, 0.8, 1.0]       # side table
+    table_b_xyz:  [-0.49, 0.69, 0.5]
