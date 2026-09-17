@@ -57,6 +57,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mesa-utils \
     && rm -rf /var/lib/apt/lists/*
 
+# --- TrainIt Community Python deps (SEPARATE layer on purpose) --------------------
+# TSA/TMR/TP declare these as rosdep keys. Kept OUT of the big apt layer above so an
+# existing user updating (git pull + ./scripts/lab build) rebuilds only THIS small
+# layer (a few MB), not the multi-GB stack. Upstream (v6.1+) pins pydantic>=1.9 using
+# only the v1/v2-overlap API, so apt's python3-pydantic (1.9 on 22.04) satisfies it — no pip.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-pydantic \
+    python3-jinja2 \
+    python3-yaml \
+    && rm -rf /var/lib/apt/lists/*
+
 # --- Non-root user matching the host (avoids root-owned files in the bind mount)
 ARG HOST_UID=1000
 ARG HOST_GID=1000

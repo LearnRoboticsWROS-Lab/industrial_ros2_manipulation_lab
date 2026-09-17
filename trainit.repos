@@ -31,12 +31,12 @@ repositories:
   trainit_setup_assistant:
     type: git
     url: https://github.com/LearnRoboticsWROS-Lab/trainit_setup_assistant.git
-    version: v6.0
+    version: v6.1
   trainit_motion_runtime:
     type: git
     url: https://github.com/LearnRoboticsWROS-Lab/trainit_motion_runtime.git
-    version: v6.0
+    version: v6.1
   trainit_perception:
     type: git
     url: https://github.com/LearnRoboticsWROS-Lab/trainit_perception.git
-    version: v6.0
+    version: v6.1
