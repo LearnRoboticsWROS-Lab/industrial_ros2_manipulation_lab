@@ -32,6 +32,19 @@ else
   log "Third-party packages (UR description, Robotiq, LinkAttacher) will be missing until it exists."
 fi
 
+# --- 2b. Import TrainIt Community (pinned to a release tag) -----------------------
+# TrainIt (TSA/TMR/TP) is the manipulation framework the course teaches. It is
+# fetched from GitHub at v6.0 into src/trainit_* (not copied from disk), so a fresh
+# clone — including the free Starter edition — gets TrainIt and can run it here.
+TRAINIT_REPOS_FILE="$REPO_ROOT/trainit.repos"
+if [ -f "$TRAINIT_REPOS_FILE" ]; then
+  log "importing TrainIt Community (vcs import from trainit.repos, pinned to v6.0)"
+  docker compose -f "$COMPOSE_FILE" run --rm lab \
+    bash -lc "vcs import src < trainit.repos"
+else
+  log "NOTE: $TRAINIT_REPOS_FILE not found — skipping TrainIt import (TSA/TMR/TP will be missing)."
+fi
+
 # --- 3. Build the workspace -------------------------------------------------------
 log "building the ROS2 workspace (colcon build inside the container)"
 docker compose -f "$COMPOSE_FILE" run --rm lab \

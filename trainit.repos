@@ -1,0 +1,42 @@
+# TrainIt Community — the manipulation framework ROS2ML teaches and consumes.
+#
+# TrainIt is a pinned EXTERNAL dependency, fetched from GitHub (never copied from
+# disk), exactly like the .repos/ deps. It is imported into src/ at build time by
+# scripts/build.sh:
+#
+#   vcs import src < trainit.repos
+#
+# then colcon-built with the rest of the workspace. It ships in EVERY edition
+# (source, starter, simulation, full): a Starter user who clones the free edition
+# can run TrainIt inside ROS2ML. The editions ship THIS file (the pinned recipe),
+# not the clones — src/trainit_* is regenerated on build, and is excluded from the
+# export (edition_matrix.yaml: always_excluded.trainit_community_fetched_at_build_time).
+#
+# Pinned to the v6.0 release tags (verified on GitHub):
+#   trainit_setup_assistant  v6.0
+#   trainit_motion_runtime   v6.0
+#   trainit_perception       v6.0
+#
+# COMMUNITY ONLY. trainit_policy_runtime (Pro) and trainit_lab (experimental) must
+# NEVER be added here — the boundary is enforced by validate_edition.py
+# (check_no_trainit_pro) and youtube_boundary_check.py.
+#
+# The Gazebo grasp used by TrainIt Community relies on IFRA_LinkAttacher
+# (linkattacher_msgs + ros2_linkattacher), already fetched in every edition via
+# .repos/simulation_dependencies.repos — so /ATTACHLINK exists wherever TrainIt runs.
+# Keys are BARE (no src/ prefix): the target dir is passed to vcs import
+# (`vcs import src < trainit.repos`), so each clones into src/<key> — the same
+# convention as .repos/simulation_dependencies.repos.
+repositories:
+  trainit_setup_assistant:
+    type: git
+    url: https://github.com/LearnRoboticsWROS-Lab/trainit_setup_assistant.git
+    version: v6.0
+  trainit_motion_runtime:
+    type: git
+    url: https://github.com/LearnRoboticsWROS-Lab/trainit_motion_runtime.git
+    version: v6.0
+  trainit_perception:
+    type: git
+    url: https://github.com/LearnRoboticsWROS-Lab/trainit_perception.git
+    version: v6.0
