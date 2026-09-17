@@ -1,0 +1,83 @@
+# joint_limits.yaml — the limits MoveIt plans within.
+#
+# THE MOVEIT SETUP ASSISTANT WRITES has_acceleration_limits: false / max_acceleration: 0
+# FOR EVERY JOINT. That is fine for OMPL, which never asks. It is fatal for Pilz:
+#
+#     [move_group] Using planning pipeline 'pilz_industrial_motion_planner'
+#     [move_group] ERROR: Exception caught: 'acceleration limit not set for group ur5_manipulator'
+#
+# PTP and LIN build a trapezoidal velocity profile, and you cannot build one without an
+# acceleration. So the six arm joints below carry a real limit. It is a CEILING, not a
+# target: the scaling factors below cut it further, and a motion request can cut it again.
+#
+# 5.0 rad/s^2 is deliberately conservative for a UR5. Raise it when you have a reason to,
+# and be able to say what the reason was.
+
+# For beginners, we downscale velocity and acceleration limits.
+# You can always specify higher scaling factors (<= 1.0) in your motion requests.  # Increase the values below to 1.0 to always move at maximum speed.
+default_velocity_scaling_factor: 0.1
+default_acceleration_scaling_factor: 0.1
+
+# Specific joint properties can be changed with the keys [max_position, min_position, max_velocity, max_acceleration]
+# Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
+joint_limits:
+  elbow_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+  robotiq_85_left_finger_tip_joint:
+    has_velocity_limits: false
+    max_velocity: 0
+    has_acceleration_limits: false
+    max_acceleration: 0
+  robotiq_85_left_inner_knuckle_joint:
+    has_velocity_limits: false
+    max_velocity: 0
+    has_acceleration_limits: false
+    max_acceleration: 0
+  robotiq_85_left_knuckle_joint:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: false
+    max_acceleration: 0
+  robotiq_85_right_finger_tip_joint:
+    has_velocity_limits: false
+    max_velocity: 0
+    has_acceleration_limits: false
+    max_acceleration: 0
+  robotiq_85_right_inner_knuckle_joint:
+    has_velocity_limits: false
+    max_velocity: 0
+    has_acceleration_limits: false
+    max_acceleration: 0
+  robotiq_85_right_knuckle_joint:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: false
+    max_acceleration: 0
+  shoulder_lift_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+  shoulder_pan_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+  wrist_1_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+  wrist_2_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+  wrist_3_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0

@@ -1,0 +1,1018 @@
+schema_version: 2
+project_name: yt_ur5_robotiq
+bundle:
+  description_package: yt_ur5_robotiq_description
+  moveit_config_package: yt_ur5_robotiq_trainit_config
+  app_package: yt_ur5_robotiq_app
+meta:
+  maintainer_name: fra
+  maintainer_email: ros.master.ai@gmail.com
+  license: Apache-2.0
+  version: 0.0.0
+robot:
+  robot_name: ur
+  description:
+    urdf_dir: /lab_ws/src/lrwros_ur5_moveit_config/config
+    top_xacro: ur.urdf.xacro
+    meshes_dir: null
+  base_frame: base_link
+  tip_link: tool0
+  planning_group:
+    name: ur5_manipulator
+    base_link: base_link
+    tip_link: tool0
+    joints:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+  gripper:
+    kind: parallel
+    eef_group_name: robotiq_gripper
+    eef_name: eef
+    eef_parent_link: tool0
+    command_joint: robotiq_85_left_knuckle_joint
+    controller_name: gripper_position_controller
+    controller_type: GripperCommand
+    action_ns: gripper_cmd
+    grasp_action: close
+    release_action: open
+    open_state: open
+    closed_state: closed
+    actuation: joint_position
+    joint_target: angle
+    open_angle: 0.0001
+    closed_angle: 0.3185
+    sim_grasp_adapter:
+      mock: link_attacher
+      isaac: surface_gripper
+      real: none
+      gazebo: link_attacher
+    interacts_with_object: true
+    link_attacher:
+      robot_model: ur
+      robot_link: wrist_3_link
+      object_model: red_cube
+      object_link: link_1
+  named_states:
+  - name: zero
+    group: ur5_manipulator
+    joint_values:
+      elbow_joint: 0.0
+      shoulder_lift_joint: 0.0
+      shoulder_pan_joint: 0.0
+      wrist_1_joint: 0.0
+      wrist_2_joint: 0.0
+      wrist_3_joint: 0.0
+  - name: up
+    group: ur5_manipulator
+    joint_values:
+      elbow_joint: 0.0
+      shoulder_lift_joint: -1.57
+      shoulder_pan_joint: 0.0
+      wrist_1_joint: -1.57
+      wrist_2_joint: 0.0
+      wrist_3_joint: 0.0
+  - name: home
+    group: ur5_manipulator
+    joint_values:
+      elbow_joint: 1.4059
+      shoulder_lift_joint: -2.2564
+      shoulder_pan_joint: 0.0
+      wrist_1_joint: -1.57
+      wrist_2_joint: -1.57
+      wrist_3_joint: 0.0
+  - name: ready
+    group: ur5_manipulator
+    joint_values:
+      shoulder_pan_joint: -1.0869463595852835e-05
+      shoulder_lift_joint: -2.256367243493136
+      elbow_joint: 1.4058936840823666
+      wrist_1_joint: -1.5699605306002709
+      wrist_2_joint: -1.5700007835656586
+      wrist_3_joint: -8.577540736798284e-05
+  kinematics:
+    solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+    search_resolution: 0.005
+    timeout: 0.005
+  joint_limits:
+    default_velocity_scaling_factor: 0.1
+    default_acceleration_scaling_factor: 0.1
+    per_joint: {}
+  ompl:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+    - RRTConnectkConfigDefault
+    - RRTkConfigDefault
+    - RRTstarkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
+    - ESTkConfigDefault
+    - KPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - LBKPIECEkConfigDefault
+    projection_evaluator: joints(j1,j2)
+    longest_valid_segment_fraction: 0.005
+  pilz_cartesian_limits:
+    max_trans_vel: 1.0
+    max_trans_acc: 2.25
+    max_trans_dec: -5.0
+    max_rot_vel: 1.57
+  initial_positions: {}
+  arm_controller:
+    name: joint_trajectory_controller
+    type: joint_trajectory_controller/JointTrajectoryController
+    action_ns: follow_joint_trajectory
+    update_rate: 100
+    command_interfaces:
+    - position
+    state_interfaces:
+    - position
+    - velocity
+  disable_collisions:
+  - link1: base_link_inertia
+    link2: camera_link
+    reason: Adjacent
+  - link1: base_link_inertia
+    link2: ground_plane
+    reason: Adjacent
+  - link1: base_link_inertia
+    link2: shoulder_link
+    reason: Adjacent
+  - link1: camera_link
+    link2: forearm_link
+    reason: Never
+  - link1: camera_link
+    link2: ground_plane
+    reason: Adjacent
+  - link1: camera_link
+    link2: robotiq_85_base_link
+    reason: Never
+  - link1: camera_link
+    link2: robotiq_85_left_finger_link
+    reason: Never
+  - link1: camera_link
+    link2: robotiq_85_left_finger_tip_link
+    reason: Never
+  - link1: camera_link
+    link2: robotiq_85_left_inner_knuckle_link
+    reason: Never
+  - link1: camera_link
+    link2: robotiq_85_left_knuckle_link
+    reason: Never
+  - link1: camera_link
+    link2: robotiq_85_right_finger_link
+    reason: Never
+  - link1: camera_link
+    link2: robotiq_85_right_finger_tip_link
+    reason: Never
+  - link1: camera_link
+    link2: robotiq_85_right_inner_knuckle_link
+    reason: Never
+  - link1: camera_link
+    link2: robotiq_85_right_knuckle_link
+    reason: Never
+  - link1: camera_link
+    link2: shoulder_link
+    reason: Never
+  - link1: camera_link
+    link2: upper_arm_link
+    reason: Never
+  - link1: camera_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: camera_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: camera_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: forearm_link
+    link2: ground_plane
+    reason: Never
+  - link1: forearm_link
+    link2: upper_arm_link
+    reason: Adjacent
+  - link1: forearm_link
+    link2: wrist_1_link
+    reason: Adjacent
+  - link1: ground_plane
+    link2: shoulder_link
+    reason: Never
+  - link1: ground_plane
+    link2: upper_arm_link
+    reason: Never
+  - link1: ground_plane
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_base_link
+    link2: robotiq_85_left_finger_link
+    reason: Never
+  - link1: robotiq_85_base_link
+    link2: robotiq_85_left_finger_tip_link
+    reason: Never
+  - link1: robotiq_85_base_link
+    link2: robotiq_85_left_inner_knuckle_link
+    reason: Adjacent
+  - link1: robotiq_85_base_link
+    link2: robotiq_85_left_knuckle_link
+    reason: Adjacent
+  - link1: robotiq_85_base_link
+    link2: robotiq_85_right_finger_link
+    reason: Never
+  - link1: robotiq_85_base_link
+    link2: robotiq_85_right_finger_tip_link
+    reason: Never
+  - link1: robotiq_85_base_link
+    link2: robotiq_85_right_inner_knuckle_link
+    reason: Adjacent
+  - link1: robotiq_85_base_link
+    link2: robotiq_85_right_knuckle_link
+    reason: Adjacent
+  - link1: robotiq_85_base_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_base_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: robotiq_85_base_link
+    link2: wrist_3_link
+    reason: Adjacent
+  - link1: robotiq_85_left_finger_link
+    link2: robotiq_85_left_finger_tip_link
+    reason: Adjacent
+  - link1: robotiq_85_left_finger_link
+    link2: robotiq_85_left_inner_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_finger_link
+    link2: robotiq_85_left_knuckle_link
+    reason: Adjacent
+  - link1: robotiq_85_left_finger_link
+    link2: robotiq_85_right_finger_link
+    reason: Never
+  - link1: robotiq_85_left_finger_link
+    link2: robotiq_85_right_finger_tip_link
+    reason: Never
+  - link1: robotiq_85_left_finger_link
+    link2: robotiq_85_right_inner_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_finger_link
+    link2: robotiq_85_right_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_finger_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_left_finger_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: robotiq_85_left_finger_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: robotiq_85_left_finger_tip_link
+    link2: robotiq_85_left_inner_knuckle_link
+    reason: Default
+  - link1: robotiq_85_left_finger_tip_link
+    link2: robotiq_85_left_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_finger_tip_link
+    link2: robotiq_85_right_finger_link
+    reason: Never
+  - link1: robotiq_85_left_finger_tip_link
+    link2: robotiq_85_right_finger_tip_link
+    reason: Never
+  - link1: robotiq_85_left_finger_tip_link
+    link2: robotiq_85_right_inner_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_finger_tip_link
+    link2: robotiq_85_right_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_finger_tip_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_left_finger_tip_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: robotiq_85_left_finger_tip_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: robotiq_85_left_inner_knuckle_link
+    link2: robotiq_85_left_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_inner_knuckle_link
+    link2: robotiq_85_right_finger_link
+    reason: Never
+  - link1: robotiq_85_left_inner_knuckle_link
+    link2: robotiq_85_right_finger_tip_link
+    reason: Never
+  - link1: robotiq_85_left_inner_knuckle_link
+    link2: robotiq_85_right_inner_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_inner_knuckle_link
+    link2: robotiq_85_right_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_inner_knuckle_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_left_inner_knuckle_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: robotiq_85_left_inner_knuckle_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: robotiq_85_left_knuckle_link
+    link2: robotiq_85_right_finger_link
+    reason: Never
+  - link1: robotiq_85_left_knuckle_link
+    link2: robotiq_85_right_finger_tip_link
+    reason: Never
+  - link1: robotiq_85_left_knuckle_link
+    link2: robotiq_85_right_inner_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_knuckle_link
+    link2: robotiq_85_right_knuckle_link
+    reason: Never
+  - link1: robotiq_85_left_knuckle_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_left_knuckle_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: robotiq_85_left_knuckle_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: robotiq_85_right_finger_link
+    link2: robotiq_85_right_finger_tip_link
+    reason: Adjacent
+  - link1: robotiq_85_right_finger_link
+    link2: robotiq_85_right_inner_knuckle_link
+    reason: Never
+  - link1: robotiq_85_right_finger_link
+    link2: robotiq_85_right_knuckle_link
+    reason: Adjacent
+  - link1: robotiq_85_right_finger_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_right_finger_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: robotiq_85_right_finger_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: robotiq_85_right_finger_tip_link
+    link2: robotiq_85_right_inner_knuckle_link
+    reason: Default
+  - link1: robotiq_85_right_finger_tip_link
+    link2: robotiq_85_right_knuckle_link
+    reason: Never
+  - link1: robotiq_85_right_finger_tip_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_right_finger_tip_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: robotiq_85_right_finger_tip_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: robotiq_85_right_inner_knuckle_link
+    link2: robotiq_85_right_knuckle_link
+    reason: Never
+  - link1: robotiq_85_right_inner_knuckle_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_right_inner_knuckle_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: robotiq_85_right_inner_knuckle_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: robotiq_85_right_knuckle_link
+    link2: wrist_1_link
+    reason: Never
+  - link1: robotiq_85_right_knuckle_link
+    link2: wrist_2_link
+    reason: Never
+  - link1: robotiq_85_right_knuckle_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: shoulder_link
+    link2: upper_arm_link
+    reason: Adjacent
+  - link1: wrist_1_link
+    link2: wrist_2_link
+    reason: Adjacent
+  - link1: wrist_1_link
+    link2: wrist_3_link
+    reason: Never
+  - link1: wrist_2_link
+    link2: wrist_3_link
+    reason: Adjacent
+  source_srdf: null
+  base_moveit_config_package: lrwros_ur5_moveit_config
+  base_moveit_config_path: /lab_ws/src/lrwros_ur5_moveit_config
+scene:
+  objects:
+  - id: basement
+    source: world
+    shape: cylinder
+    dims:
+    - 0.2
+    - 0.78
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - 1.0e-06
+    - 1.0e-06
+    - -0.410002
+    orientation:
+    - -0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_0
+    source: world
+    shape: box
+    dims:
+    - 1.5
+    - 0.8
+    - 0.03
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - -0.489994
+    - 0.688645
+    - 0.2
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_1
+    source: world
+    shape: cylinder
+    dims:
+    - 0.02
+    - 1.0
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - 0.190006
+    - 1.068645
+    - -0.3
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_2
+    source: world
+    shape: cylinder
+    dims:
+    - 0.02
+    - 1.0
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - 0.190006
+    - 0.308645
+    - -0.3
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_3
+    source: world
+    shape: cylinder
+    dims:
+    - 0.02
+    - 1.0
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - -1.169994
+    - 0.308645
+    - -0.3
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_4
+    source: world
+    shape: cylinder
+    dims:
+    - 0.02
+    - 1.0
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - -1.169994
+    - 1.068645
+    - -0.3
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_0_0
+    source: world
+    shape: box
+    dims:
+    - 1.5
+    - 0.8
+    - 0.03
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - 0.731014
+    - -0.047935
+    - 0.2
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.700177
+    - 0.71397
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_0_1
+    source: world
+    shape: cylinder
+    dims:
+    - 0.02
+    - 1.0
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - 0.36435
+    - 0.639348
+    - -0.3
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.700177
+    - 0.71397
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_0_2
+    source: world
+    shape: cylinder
+    dims:
+    - 0.02
+    - 1.0
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - 1.124205
+    - 0.624524
+    - -0.3
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.700177
+    - 0.71397
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_0_3
+    source: world
+    shape: cylinder
+    dims:
+    - 0.02
+    - 1.0
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - 1.097678
+    - -0.735218
+    - -0.3
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.700177
+    - 0.71397
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: table_0_4
+    source: world
+    shape: cylinder
+    dims:
+    - 0.02
+    - 1.0
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - 0.337823
+    - -0.720394
+    - -0.3
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.700177
+    - 0.71397
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: euro_pallet
+    source: world
+    shape: mesh
+    dims:
+    - 0.1
+    - 0.1
+    - 0.1
+    mesh_resource: package://lrwros_ur5_workcell/models/euro_pallet/meshes/pallet.dae
+    scale:
+    - 0.1
+    - 0.1
+    - 0.1
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - -0.889759
+    - -0.55532
+    - -0.678
+    orientation:
+    - 0.0
+    - 0.0
+    - -0.006508
+    - 0.999979
+    category: static
+    dynamic: false
+    collision: true
+    grasp_target: false
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  - id: red_cube
+    source: world
+    shape: box
+    dims:
+    - 0.02
+    - 0.02
+    - 0.2
+    mesh_resource: null
+    scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    aabb_center:
+    - 0.0
+    - 0.0
+    - 0.0
+    frame: base_link
+    position:
+    - 0.5
+    - -5.0e-06
+    - 0.315
+    orientation:
+    - -5.0e-06
+    - 6.1e-05
+    - 1.2e-05
+    - 1.0
+    category: dynamic
+    dynamic: true
+    collision: true
+    grasp_target: true
+    release_policy: freeze
+    isaac_grasp_method: fixed_joint
+    touchable_collision_ids: []
+  payload: null
+  gripper_cmd_topic: /gripper_cmd
+  scene_reset_topic: /scene_reset
+  attach_link: wrist_3_link
+  robot_base_world_pose:
+  - 0.0
+  - 0.0
+  - 0.8
+  - 0.0
+  - 0.0
+  - 0.0
+  world_path: /lab_ws/src/lrwros_ur5_workcell/worlds/pick_place_workplace.world
+  touch_links:
+  - wrist_3_link
+  - flange
+  - tool0
+  attached_collision_check: false
+  force_republish_hz: 0.0
+  grasp_attach_mode: attach_box
+perception: null
+application:
+  type: pick_and_place
+  global_planner_mode: ompl
+  bt_tree_id: MainTree
+  process_controller: mock
+  process_path_backend: pilz_sequence
+  enforce_validation: true
+  waypoints:
+  - name: ready
+    type: joint
+    position: null
+    orientation: null
+    joints: null
+    named: ready
+    role: generic
+    vision: null
+    relative: null
+    allowed_start_tolerance: 0.1
+  - name: pick
+    type: tcp
+    position:
+    - 0.3809
+    - -0.0122
+    - 0.4381
+    orientation:
+    - 0.5938
+    - -0.5935
+    - 0.3838
+    - -0.3844
+    joints: null
+    named: null
+    role: generic
+    vision: null
+    relative: null
+    allowed_start_tolerance: 0.1
+  - name: post_pick
+    type: tcp
+    position:
+    - 0.4452
+    - -0.0122
+    - 0.5814
+    orientation:
+    - 0.5937
+    - -0.5936
+    - 0.3839
+    - -0.3844
+    joints: null
+    named: null
+    role: generic
+    vision: null
+    relative: null
+    allowed_start_tolerance: 0.1
+  - name: place
+    type: tcp
+    position:
+    - -0.1356
+    - 0.4225
+    - 0.4628
+    orientation:
+    - 0.9857
+    - 0.1685
+    - 0.0009
+    - 0.0069
+    joints: null
+    named: null
+    role: generic
+    vision: null
+    relative: null
+    allowed_start_tolerance: 0.1
+  - name: retreat
+    type: tcp
+    position:
+    - -0.1356
+    - 0.4225
+    - 0.4628
+    orientation:
+    - 0.9857
+    - 0.1685
+    - 0.0009
+    - 0.0069
+    joints: null
+    named: null
+    role: generic
+    vision: null
+    relative:
+      step: place
+      dx: 0.0
+      dy: 0.0
+      dz: 0.1
+      droll: 0.0
+      dpitch: 0.0
+      dyaw: 0.0
+    allowed_start_tolerance: 0.1
+  segments:
+  - to_waypoint: ready
+    motion: ptp
+    planner: pilz
+    speed: 50
+    aux: null
+    aux_is_center: false
+    attached_collision_check: null
+    wait_after_ms: 0
+  - to_waypoint: pick
+    motion: lin
+    planner: pilz
+    speed: 30
+    aux: null
+    aux_is_center: false
+    attached_collision_check: null
+    wait_after_ms: 0
+  - to_waypoint: post_pick
+    motion: lin
+    planner: pilz
+    speed: 80
+    aux: null
+    aux_is_center: false
+    attached_collision_check: true
+    wait_after_ms: 0
+  - to_waypoint: place
+    motion: ptp
+    planner: ompl
+    speed: 70
+    aux: null
+    aux_is_center: false
+    attached_collision_check: true
+    wait_after_ms: 2000
+  - to_waypoint: retreat
+    motion: lin
+    planner: pilz
+    speed: 80
+    aux: null
+    aux_is_center: false
+    attached_collision_check: null
+    wait_after_ms: 0
+  tool_actions:
+  - at_waypoint: pick
+    kind: grasp
+    payload_ref: null
+  - at_waypoint: place
+    kind: release
+    payload_ref: null
+  detections: []
+  policies: []
+  sequence:
+  - ready
+  - pick
+  - post_pick
+  - place
+  - retreat
+  loop_cycles: 0
+  loop_start: null
+  loop_end: null
+deployment:
+  modes:
+  - mock
+  - isaac
+  - real
+  - gazebo
+  default_mode: gazebo
+  arm_joint_states_remap_to: null
+  bridges: []
+  real_include: null
+  gazebo_cm_bootstrap: false
