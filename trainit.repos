@@ -13,7 +13,7 @@
 # export (edition_matrix.yaml: always_excluded.trainit_community_fetched_at_build_time).
 #
 # Pinned to the TrainIt v8 public release (tags verified on GitHub):
-#   trainit_setup_assistant  v8.2.1   the Setup Assistant + the Application Composer
+#   trainit_setup_assistant  v8.2.2   the Setup Assistant + the Application Composer
 #   trainit_motion_runtime   v2.6.1   the Motion Runtime
 #   trainit_perception       v0.5.0   the perception detectors
 #   trainit_interfaces       v0.2.0   the messages the runtime and perception share (new in v8)
@@ -34,7 +34,7 @@ repositories:
   trainit_setup_assistant:
     type: git
     url: https://github.com/LearnRoboticsWROS-Lab/trainit_setup_assistant.git
-    version: v8.2.1
+    version: v8.2.2
   trainit_motion_runtime:
     type: git
     url: https://github.com/LearnRoboticsWROS-Lab/trainit_motion_runtime.git
