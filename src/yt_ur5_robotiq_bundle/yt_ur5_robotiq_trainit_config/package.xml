@@ -14,11 +14,15 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <!-- framework: planner pipelines + the scene loader node -->
-  <exec_depend>trainit_motion_runtime</exec_depend>
+  <!-- trainit_motion_runtime >= 1.5.0 for: the launch helper's backend= (gazebo) -->
+  <exec_depend version_gte="1.5.0">trainit_motion_runtime</exec_depend>
 
   <!-- MoveIt + planners -->
   <exec_depend>moveit_configs_utils</exec_depend>
   <exec_depend>moveit_ros_move_group</exec_depend>
+  <!-- the controller manager config/moveit_controllers.yaml names: without it move_group
+       executes no trajectory -->
+  <exec_depend>moveit_simple_controller_manager</exec_depend>
   <exec_depend>moveit_kinematics</exec_depend>
   <exec_depend>pilz_industrial_motion_planner</exec_depend>
   <exec_depend>moveit_planners_ompl</exec_depend>

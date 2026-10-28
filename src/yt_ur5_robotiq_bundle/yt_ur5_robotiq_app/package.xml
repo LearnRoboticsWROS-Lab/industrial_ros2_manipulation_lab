@@ -12,7 +12,8 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>trainit_motion_runtime</exec_depend>
+  <!-- trainit_motion_runtime >= 1.5.0 for: the launch helper's backend= (gazebo); the joint-position gripper targets -->
+  <exec_depend version_gte="1.5.0">trainit_motion_runtime</exec_depend>
   <exec_depend>yt_ur5_robotiq_trainit_config</exec_depend>
   <exec_depend>yt_ur5_robotiq_description</exec_depend>
 

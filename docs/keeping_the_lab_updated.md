@@ -27,10 +27,21 @@ git pull
 ./scripts/lab build
 ```
 
-- **`git pull`** fetches the latest lab, including the TrainIt recipe.
-- **`./scripts/lab build`** pulls in TrainIt and rebuilds **only what's new** — it does **not**
-  re-download the whole environment. The big Docker image stays cached; you'll only see a small
-  dependency layer plus TrainIt itself. It takes a couple of minutes.
+- **`git pull`** fetches the latest lab, including the TrainIt versions it is tested with
+  (`trainit.repos`).
+- **`./scripts/lab build`** moves TrainIt to those versions and rebuilds **only what's new** — it
+  does **not** re-download the whole environment. The Docker image is rebuilt only when the lab's
+  Dockerfile changes, and even then Docker reuses everything before the changed step. It takes a
+  few minutes.
+
+**Always both.** `git pull` alone does not update TrainIt: TrainIt lives in its own folders
+(`src/trainit_*`, each its own git repository), and only `./scripts/lab build` brings them to the
+new versions. You can check with `git -C src/trainit_setup_assistant describe --tags`.
+
+**On your computer, not inside the container.** Run both in the lab folder on your machine. The
+container keeps nothing: every `./scripts/lab` command starts a fresh one with your lab folder
+mounted as `/lab_ws`, so the next `./scripts/lab shell` or `./scripts/lab start` already sees the
+update.
 
 If you're cloning the lab **for the first time now**, you already have everything — nothing
 extra to do.
@@ -54,6 +65,9 @@ The second big TrainIt update. What you get:
 - **The same motion every cycle**: a PTP to a pose now takes the joint configuration nearest where
   the robot starts — no more a different arm posture from one cycle to the next — and a pose can
   keep the configuration you taught it in.
+- **Gazebo cells you generate build and run with `./scripts/lab build`** too (TrainIt 8.2.3), and
+  if Gazebo ever refuses to weld a part to the gripper, the log now says so (`ATTACH FAILED ...`)
+  instead of the cycle silently going on empty-handed.
 
 The update is fetched exactly as before (`git pull`, then `./scripts/lab build`). Two more TrainIt
 packages (`trainit_interfaces`, `trainit_hardware_layer`) now come with it, automatically. The
@@ -74,11 +88,44 @@ git pull
 ./scripts/lab build
 ```
 
-## Make `git pull` a habit
+**If `git pull` stops with "Your local changes to the following files would be overwritten by
+merge":** you edited a file the lab ships. Put your change aside (git keeps it) and pull:
 
-The lab evolves. Before each session, it's good practice to run a quick **`git pull`** (and
-**`./scripts/lab build`** if anything changed) in your lab folder to pick up new features and
-fixes. You won't lose your own work, and the build stays incremental.
+```bash
+git stash
+git pull
+./scripts/lab build
+```
+
+`git stash show -p` shows your change; `git stash pop` puts it back on top of the update (if it
+touches the same lines the update changed, git marks the file as a conflict for you to resolve).
+
+**If `./scripts/lab build` stops at "importing TrainIt Community" with "Could not checkout ref …
+Your local changes … would be overwritten by checkout" for a `src/trainit_…` folder:** you edited
+TrainIt's own files. Put your change aside (it stays in that folder's stash) and build again:
+
+```bash
+git -C src/<that trainit folder> stash
+./scripts/lab build
+```
+
+**If a Gazebo cell you generated yourself before this update stops with "executable
+'link_attacher_bridge.py' not found on the libexec directory":** generate it again from the Setup
+Assistant (Step 8, Generate), or make that one file executable and build again:
+
+```bash
+chmod +x src/<your bundle>/<your project>_trainit_config/scripts/link_attacher_bridge.py
+./scripts/lab build
+```
+
+After the build, `git -C src/trainit_setup_assistant describe --tags` prints `v8.2.3` and
+`git -C src/trainit_motion_runtime describe --tags` prints `v2.6.2`.
+
+## Make "pull, then build" a habit
+
+The lab evolves, and TrainIt with it. Before each session, run **`git pull`** and then
+**`./scripts/lab build`** in your lab folder to pick up new features and fixes — both, every time.
+You won't lose your own work, and the build only recompiles what changed.
 
 Keeping the lab current is **my job** — so that every time you sit down, you're working with an
 up-to-date, industry-relevant robotics environment. Thanks for being part of it. 🚀

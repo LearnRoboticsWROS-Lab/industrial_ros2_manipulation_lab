@@ -1,4 +1,15 @@
-generator_version: 0.1.0
+generator_version: 8.2.3
+capability_snapshot:
+  catalog_version: 1
+  catalog_sha256: b62a669ab498650e57a6121e39e661ae85e192bff74c39b4488dd7206d951abf
+  trainit_motion_runtime:
+    version: 2.6.2
+    planner_registry_schema: 2
+    planner_registry_sha256: adf6065ae14e3aab449ea5e8a5ed657ce6563f3a9ba01506e9549f45e7f1de6b
+  trainit_perception:
+    version: 0.5.0
+    vocabulary_schema: 1
+    vocabulary_sha256: 7c12e997c0670eb7c1336bf33c9dff51e795706b2ef07bba50a78c7772cb230d
 project_name: yt_ur5_robotiq
 file_count: 39
 warnings: []
@@ -33,7 +44,7 @@ files:
   source: app/trainit_bt.launch.py.j2
 - path: yt_ur5_robotiq_app/package.xml
   action: TEMPLATE
-  sha256: ed923223a444232ae73065cba40572fca2a491ceb413b1d7d79fb8ee944d9df0
+  sha256: 3135d307466c32e3d8a073127df9de131954257c4af243a56926488ca2a3ea4b
   source: app/package.xml.j2
 - path: yt_ur5_robotiq_app/scripts/mock_gripper_action_server.py
   action: TEMPLATE
@@ -58,15 +69,15 @@ files:
 - path: yt_ur5_robotiq_description/urdf/initial_positions.yaml
   action: COPY
   sha256: 1ed55d98631c790acfc875868b43036e20280c4072fad49fed31a5cb14806fdb
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/initial_positions.yaml
+  source: package://lrwros_ur5_moveit_config/config/initial_positions.yaml
 - path: yt_ur5_robotiq_description/urdf/ur.ros2_control.xacro
   action: COPY
   sha256: 47b7ee304463fd212aa8505a5b987aa1ecf934d934e6e0b28b079b55496cbe5f
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/ur.ros2_control.xacro
+  source: package://lrwros_ur5_moveit_config/config/ur.ros2_control.xacro
 - path: yt_ur5_robotiq_description/urdf/ur.urdf.xacro
   action: COPY
   sha256: 3eb0953ddeb0c6301a0a6cf98486ae1c950c31cd4a54128d247b29a8328572f5
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/ur.urdf.xacro
+  source: package://lrwros_ur5_moveit_config/config/ur.urdf.xacro
 - path: yt_ur5_robotiq_trainit_config/CMakeLists.txt
   action: TEMPLATE
   sha256: c7184761133da0789530164f727be87de8b99cc0df351b6685aab5f2c033be8d
@@ -74,47 +85,47 @@ files:
 - path: yt_ur5_robotiq_trainit_config/config/chomp_planning.yaml
   action: COPY
   sha256: afdeeee44385bb5b60f0fde6acd27ebeb058c5146f2dc14ae5a14342b8d68e50
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/chomp_planning.yaml
+  source: package://lrwros_ur5_moveit_config/config/chomp_planning.yaml
 - path: yt_ur5_robotiq_trainit_config/config/initial_positions.yaml
   action: COPY
   sha256: 1ed55d98631c790acfc875868b43036e20280c4072fad49fed31a5cb14806fdb
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/initial_positions.yaml
+  source: package://lrwros_ur5_moveit_config/config/initial_positions.yaml
 - path: yt_ur5_robotiq_trainit_config/config/joint_limits.yaml
   action: COPY
   sha256: faf16d56a04bdb159c1f1dd1110161a1e0418f674f82b8b908e5c2342a3151a4
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/joint_limits.yaml
+  source: package://lrwros_ur5_moveit_config/config/joint_limits.yaml
 - path: yt_ur5_robotiq_trainit_config/config/kinematics.yaml
   action: COPY
   sha256: f5bcdddad01fe1a7b90341d1605ef9e44d4b9f63bac413596bd5e28c400cc3e1
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/kinematics.yaml
+  source: package://lrwros_ur5_moveit_config/config/kinematics.yaml
 - path: yt_ur5_robotiq_trainit_config/config/lerp_planning.yaml
   action: COPY
   sha256: ffe7a452f3b584d02e3d91dc38388af3d51ad21e2cfcc74c32b39034ab28eafa
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/lerp_planning.yaml
+  source: package://lrwros_ur5_moveit_config/config/lerp_planning.yaml
 - path: yt_ur5_robotiq_trainit_config/config/moveit.rviz
   action: COPY
   sha256: 261af7e8b71bfa690ba083c592def7a86e1ecfe5503eed6c1bd3cbeae7787cf4
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/moveit.rviz
+  source: package://lrwros_ur5_moveit_config/config/moveit.rviz
 - path: yt_ur5_robotiq_trainit_config/config/moveit_controllers.yaml
   action: COPY
   sha256: 6e246be7f358b9a82db21c6d019a3b94da468b89182c0e67a82578dc585cf8ce
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/moveit_controllers.yaml
+  source: package://lrwros_ur5_moveit_config/config/moveit_controllers.yaml
 - path: yt_ur5_robotiq_trainit_config/config/ompl_planning.yaml
   action: COPY
   sha256: 415f230cfb60cc5fa082da1fa391c2b34b31b7d9bd8335b785fb7ff0b30e7ef3
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/ompl_planning.yaml
+  source: package://lrwros_ur5_moveit_config/config/ompl_planning.yaml
 - path: yt_ur5_robotiq_trainit_config/config/pilz_cartesian_limits.yaml
   action: COPY
   sha256: fed80b213b77f13fb7b913d703609a66caa72ccb0617b41e83d3057e31749047
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/pilz_cartesian_limits.yaml
+  source: package://lrwros_ur5_moveit_config/config/pilz_cartesian_limits.yaml
 - path: yt_ur5_robotiq_trainit_config/config/pilz_industrial_motion_planner_planning.yaml
   action: COPY
   sha256: 327ae2de8456ccd2e4999c6d433b6023e1a098d36d7c431c1c111f974b50ef64
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/pilz_industrial_motion_planner_planning.yaml
+  source: package://lrwros_ur5_moveit_config/config/pilz_industrial_motion_planner_planning.yaml
 - path: yt_ur5_robotiq_trainit_config/config/ros2_controllers.yaml
   action: COPY
   sha256: ebccb65f0fcefdc1e5a8d62ddbdb1ae87a74153f8a6a1a279194febb05b80b17
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/ros2_controllers.yaml
+  source: package://lrwros_ur5_moveit_config/config/ros2_controllers.yaml
 - path: yt_ur5_robotiq_trainit_config/config/scene.yaml
   action: GENERATE
   sha256: 234cdd0a8439663fd156c34766a364e9b0fc9129d02597359eb6fe2633992ca6
@@ -122,23 +133,23 @@ files:
 - path: yt_ur5_robotiq_trainit_config/config/sensors_3d.yaml
   action: COPY
   sha256: 5a50986ad49a67d5451c90ef986d6619357d7d510a679d5dfeae6b0e7d1e7fdb
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/sensors_3d.yaml
+  source: package://lrwros_ur5_moveit_config/config/sensors_3d.yaml
 - path: yt_ur5_robotiq_trainit_config/config/sensors_kinect_pointcloud.yaml
   action: COPY
   sha256: f2e75857a7c379570a703f45eda126e56e075239572d5549c297310c2ef14dad
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/sensors_kinect_pointcloud.yaml
+  source: package://lrwros_ur5_moveit_config/config/sensors_kinect_pointcloud.yaml
 - path: yt_ur5_robotiq_trainit_config/config/trajopt_planning.yaml
   action: COPY
   sha256: cb5462977247c97b1821cafa6b76fa25d9a10db31ce1a25f9d31222f0f04cbc7
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/trajopt_planning.yaml
+  source: package://lrwros_ur5_moveit_config/config/trajopt_planning.yaml
 - path: yt_ur5_robotiq_trainit_config/config/ur.ros2_control.xacro
   action: COPY
   sha256: 47b7ee304463fd212aa8505a5b987aa1ecf934d934e6e0b28b079b55496cbe5f
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/ur.ros2_control.xacro
+  source: package://lrwros_ur5_moveit_config/config/ur.ros2_control.xacro
 - path: yt_ur5_robotiq_trainit_config/config/ur.srdf
   action: COPY
   sha256: 262f2c29b018dc1689499486a3c5b49f2ffbd8ee675fa0ba3a6e39199728b496
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/ur.srdf
+  source: package://lrwros_ur5_moveit_config/config/ur.srdf
 - path: yt_ur5_robotiq_trainit_config/config/ur.srdf
   action: GENERATE
   sha256: af9c4cbc88e34cf60e6bd0eecaa6cec80245e236cea3d562ff857fcc00c5ff69
@@ -146,16 +157,16 @@ files:
 - path: yt_ur5_robotiq_trainit_config/config/ur.urdf.xacro
   action: COPY
   sha256: 3eb0953ddeb0c6301a0a6cf98486ae1c950c31cd4a54128d247b29a8328572f5
-  source: /lab_ws/src/lrwros_ur5_moveit_config/config/ur.urdf.xacro
+  source: package://lrwros_ur5_moveit_config/config/ur.urdf.xacro
 - path: yt_ur5_robotiq_trainit_config/launch/bringup.launch.py
   action: TEMPLATE
   sha256: afcbb7e0775dd767c7e928d83f060577320ffe11b3b9bb6dbc6fc02f7438cf52
   source: moveit_config/scene_loader_bringup.launch.py.j2
 - path: yt_ur5_robotiq_trainit_config/package.xml
   action: TEMPLATE
-  sha256: 9e844003b82def6ac691a9089eb4a2258d9bfa0d8e10232f308dcb7321275a73
+  sha256: fd42e9f815d135c4537c70e3c23ed17ba953beab59b185eacb725f7ca6d1096f
   source: moveit_config/scene_loader_package.xml.j2
 - path: yt_ur5_robotiq_trainit_config/scripts/link_attacher_bridge.py
   action: COPY
-  sha256: 65dc7c1e599592acea129e40ab7ecbf69259f0c25d4b139534a9d8cbdd309420
-  source: /lab_ws/build/trainit_setup_assistant/trainit_setup_assistant/resources/gazebo_cell_kit/scripts/link_attacher_bridge.py
+  sha256: 90c5573ab99b3da1fd13f805e9621585025049dfca80531ba53bb0c8ab7c890a
+  source: package://trainit_setup_assistant/trainit_setup_assistant/resources/gazebo_cell_kit/scripts/link_attacher_bridge.py

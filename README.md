@@ -17,6 +17,26 @@ cd industrial_ros2_manipulation_lab
 **No native ROS2 installation required.** ROS2 Humble, Gazebo, MoveIt2 and
 `ros2_control` all live in the container. Your machine only needs Docker.
 
+## Step 0 — Before every session: update
+
+This lab is a living project, and **TrainIt** — the robot-cell framework inside it (the Setup
+Assistant and the Motion Runtime) — is in continuous development: new features and fixes arrive
+regularly. So before every session, run these two commands in the lab folder, on your computer
+(not inside the container):
+
+```bash
+git pull              # the latest lab, and the TrainIt versions it is tested with
+./scripts/lab build   # brings TrainIt to those versions and rebuilds only what changed
+```
+
+Always both: `git pull` alone does not update TrainIt. TrainIt lives in its own folders
+(`src/trainit_*`), and only `./scripts/lab build` moves them to the versions the lab now pins.
+There is nothing to update inside the container: every `./scripts/lab` command starts a fresh
+one on your lab folder, and the Docker image is rebuilt only when the lab's Dockerfile changes.
+
+Just cloned? You already have the latest — carry on below. If `git pull` stops with an error,
+see [docs/keeping_the_lab_updated.md](docs/keeping_the_lab_updated.md).
+
 ---
 
 ## What this is
