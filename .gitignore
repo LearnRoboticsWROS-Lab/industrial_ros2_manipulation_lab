@@ -1,0 +1,101 @@
+# ROS2 / colcon build artifacts
+build/
+install/
+log/
+
+# Fetched by ./scripts/lab build, never committed: the simulation dependencies
+# (.repos/simulation_dependencies.repos) and TrainIt Community (trainit.repos)
+src/external/
+src/trainit_*/
+# The manifest TrainIt's Setup Assistant writes beside packages it generates into src/
+/src/generation_manifest.yaml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+
+# C++ / CMake
+*.o
+*.so
+CMakeCache.txt
+CMakeFiles/
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Local environment files (never commit credentials)
+.env
+*.env
+
+# Large local data that students generate (keep the folders, ignore the payloads)
+data/rosbags/*
+!data/rosbags/.gitkeep
+data/pointclouds/*
+!data/pointclouds/.gitkeep
+
+# Third-party sources pulled via vcs import (see .repos/)
+src/external/
+
+# TrainIt Community, fetched at build time via trainit.repos (pinned v6.0).
+# Like src/external/, the clones are never committed — trainit.repos is the recipe.
+# NOTE: the Pro/experimental packages (trainit_policy_runtime, trainit_lab) are
+# deliberately NOT ignored, so a stray vendored copy stays visible to git + guards.
+src/trainit_setup_assistant/
+src/trainit_motion_runtime/
+src/trainit_perception/
+
+# TrainIt generated bundles + test/scratch output (reproducible from TSA).
+# These are lab scratch, not ROS2ML course source; the edition manifests already
+# exclude them (allowlist), so this only keeps `git status` clean.
+src/_gz_generated/
+src/gz_ur5_smoke/
+src/*_bundle/
+src/*_test*/
+src/*_scene_loader_moveit_config/
+src/generation_manifest.yaml
+# Exception: the reference bundle generated in the YouTube tutorial IS shipped, so
+# viewers get a working TSA-generated example to run and study. Keep these tracked.
+!src/yt_ur5_robotiq_bundle/
+!src/yt_ur5_robotiq_scene_loader_moveit_config/
+
+# NOTE FOR RELEASE:
+# The instructor_private/ folder is instructor-only material.
+# It is tracked in the instructor branch but MUST be excluded from the
+# student-facing release (see scripts/export_student_project.sh).
+
+# Instructor-only / private material
+instructor_private/
+prompt.txt
+
+# Heavy or private artifacts
+models/
+runs/
+datasets/
+*.pt
+*.onnx
+*.engine
+*.bag
+*.db3
+*.mcap
+# Student/instructor scratch workspace created in Module 1 exercises
+# (lives under /lab_ws so it persists via the bind mount, but must NOT be
+# committed — students rely on the official repo staying clean).
+/training_ws/
+
+# tf2_tools view_frames output (written to the cwd, i.e. /lab_ws)
+frames.pdf
+frames.gv
+frames_*.pdf
+frames_*.gv
+
+# LibreOffice lock files
+.~lock.*#
